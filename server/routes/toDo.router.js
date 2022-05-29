@@ -23,5 +23,19 @@ router.post('/', (req, res) => {
     })
 }); //end router.post
 
+router.get('/', (req, res) => {
+    const sqlQuery = `
+        SELECT * FROM "to-do-list";    
+    `
+    pool.query(sqlQuery).then(response => {
+        console.log('in router.get pool.query', response.rows);
+        res.send(response.rows);
+    }).catch((err) => {
+        console.log('error getting tasks', err);
+        res.sendStatus(500);
+    });
+
+}); //end router.get
+
 
 module.exports = router;

@@ -5,6 +5,7 @@ $(document).ready(onReady);
 function onReady() {
     console.log( 'so ready!' );
     $(document).on('click', '#addButton', addTask);
+    appendTasks();
 };
 
 function addTask() {
@@ -31,4 +32,30 @@ function addTask() {
 
 function appendTasks() {
     console.log('in appendTasks');
+    $('#viewTasks').empty();
+
+    $.ajax({
+        method: 'GET',
+        url: '/toDo'
+    }).then((response) => {
+        console.log('in appendTasks ajax.then', response)
+        for (task of response) {
+            $('#viewTasks').append(`
+            <tr> data-task-id="${task.id}">
+                <td> ${task.task} </td>
+                <td> ${task.status} </td>
+                <td>
+                    <button id="completeBtn">Complete</button>
+                </td>
+                <td>
+                    <button id="deleteBtn">Delete</button>
+                </td>
+            </tr>
+            `);//end table appending
+        }
+
+    }).catch((err) => {
+        console.log('in append ajax.catch', err);
+        alert('cannot get tasks');
+    });
 }// end appendTasks
