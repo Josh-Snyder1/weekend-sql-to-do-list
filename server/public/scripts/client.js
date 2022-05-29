@@ -5,6 +5,7 @@ $(document).ready(onReady);
 function onReady() {
     console.log( 'so ready!' );
     $(document).on('click', '#addButton', addTask);
+    appendTasks();
 };
 
 function addTask() {
@@ -41,13 +42,15 @@ function appendTasks() {
         for (task of response) {
             $('#viewTasks').append(`
             <tr> data-task-id="${task.id}">
-                <td> ${task.task} <td>
+                <td> ${task.task} </td>
+                <td> ${task.status} </td>
                 <td>
                     <button id="completeBtn">Complete</button>
                 </td>
                 <td>
                     <button id="deleteBtn">Delete</button>
                 </td>
+            </tr>
             `);//end table appending
         }
 
