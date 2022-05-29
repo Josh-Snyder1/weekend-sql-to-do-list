@@ -3,5 +3,11 @@
 }
 
 #viewTasks {
-    
+    border: 2px;
+}
+
+tr, th, td {
+    border: 1px solid;
+    border-color: black;
+    border-collapse: collapse;
 }
