@@ -5,7 +5,7 @@ const toDoRouter = require('./routes/toDo.router');
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use('/toDo');
+app.use('/toDo', toDoRouter);
 
 app.use(express.static('server/public'));
 
