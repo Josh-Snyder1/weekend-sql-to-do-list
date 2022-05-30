@@ -5,6 +5,8 @@ $(document).ready(onReady);
 function onReady() {
     console.log( 'so ready!' );
     $(document).on('click', '#addButton', addTask);
+    $(document).on('click', '.deleteBtn', deleteTask);
+    $(document).on('click', '.completeBtn', makeComplete)
     appendTasks();
 };
 
@@ -41,14 +43,14 @@ function appendTasks() {
         console.log('in appendTasks ajax.then', response)
         for (task of response) {
             $('#viewTasks').append(`
-            <tr> data-task-id="${task.id}">
+            <tr data-task-id="${task.id}">
                 <td> ${task.task} </td>
                 <td> ${task.status} </td>
                 <td>
-                    <button id="completeBtn">Complete</button>
+                    <button class="completeBtn">Complete</button>
                 </td>
                 <td>
-                    <button id="deleteBtn">Delete</button>
+                    <button class="deleteBtn">Delete</button>
                 </td>
             </tr>
             `);//end table appending
@@ -59,3 +61,25 @@ function appendTasks() {
         alert('cannot get tasks');
     });
 }// end appendTasks
+
+function deleteTask() {
+    console.log('in deleteTask');
+
+    let taskId = $(this).parents('tr').data('task-id');
+    
+    $.ajax({
+        method: 'DELETE',
+        url: `/toDo/${taskId}`
+    }).then(() => {
+        console.log('in deleteTask ajax.then',taskId);
+        appendTasks();
+    }).catch(() => {
+        console.log('in deleteTask ajax.catch',err);
+        alert('cannot delete task');
+    })
+
+}//end delete Task
+
+function makeComplete() {
+
+}//end makeComplete

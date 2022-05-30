@@ -37,5 +37,26 @@ router.get('/', (req, res) => {
 
 }); //end router.get
 
+router.delete('/:task', (req, res) => {
+    let taskId = req.params.task;
+    console.log('in router.delete',taskId);
+
+    const sqlQuery = `
+        DELETE FROM "to-do-list"
+        WHERE "id" = $1;
+    `
+    const sqlParams = [taskId];
+
+    pool.query(sqlQuery, sqlParams)
+    .then(() => {
+        console.log('in router.delete pool.query');
+        res.sendStatus(201);
+    }).catch((err) => {
+        console.log('delete failed', err);
+        res.sendStatus(500);
+    });
+
+});//end router.delete
+
 
 module.exports = router;
