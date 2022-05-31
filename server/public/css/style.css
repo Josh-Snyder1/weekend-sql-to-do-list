@@ -12,3 +12,7 @@ tbody, thead, tr, th, td {
     border-collapse:collapse;
     border-spacing: 0px;
 }
+
+.taskComplete {
+    text-decoration: line-through;
+}

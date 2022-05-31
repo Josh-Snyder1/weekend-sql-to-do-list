@@ -44,7 +44,7 @@ function appendTasks() {
         for (task of response) {
             $('#viewTasks').append(`
             <tr data-task-id="${task.id}">
-                <td> ${task.task} </td>
+                <td class="task"> ${task.task} </td>
                 <td class="status">${task.status}</td>
                 <td> 
                 <button class="changeStatus">Status
@@ -86,6 +86,8 @@ function makeComplete() {
     let taskId = $(this).parents('tr').data('task-id');
     let updateStatus ={};
 
+    $(this).parents('tr').children('.task').classList.toggle("taskComplete")
+
     if($(this).parents('tr').children('.status').text()=== 'false') {
             updateStatus = {
             status: true
@@ -98,17 +100,17 @@ function makeComplete() {
       }
       else {
           console.log('PROBLEM');
-      }
+      };
 
     console.log(updateStatus);
 
     $.ajax({
         method: 'PUT',
-        url: `/task/${taskId}`,
+        url: `/toDo/${taskId}`,
         data: updateStatus
     }).then(res => {
         console.log('PUT transfer success');
-        // appendTasks();
+        appendTasks();
     }).catch( err => {
         console.log('update failed');
     });

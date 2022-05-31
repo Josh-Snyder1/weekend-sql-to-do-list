@@ -58,6 +58,9 @@ router.delete('/:task', (req, res) => {
 
 });//end router.delete
 
+
+//client is not hitting the router.put
+//getting no console.log of 'in router.put'
 router.put('/:task', (req, res) => {
     console.log('in router.put');
     let sqlQuery = `
