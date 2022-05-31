@@ -6,7 +6,7 @@ function onReady() {
     console.log( 'so ready!' );
     $(document).on('click', '#addButton', addTask);
     $(document).on('click', '.deleteBtn', deleteTask);
-    $(document).on('click', '.completeBtn', makeComplete)
+    $(document).on('click', '.changeStatus', makeComplete)
     appendTasks();
 };
 
@@ -22,7 +22,7 @@ function addTask() {
         url: '/toDo',
         data: task
     }).then(function(response) {
-        getTasks();
+        appendTasks();
         console.log('in ajax post.then',response);
     }).catch(function(err) {
         console.log('error in POST', err);
@@ -45,9 +45,9 @@ function appendTasks() {
             $('#viewTasks').append(`
             <tr data-task-id="${task.id}">
                 <td> ${task.task} </td>
-                <td> ${task.status} </td>
-                <td>
-                    <button class="completeBtn">Complete</button>
+                <td class="status">${task.status}</td>
+                <td> 
+                <button class="changeStatus">Status
                 </td>
                 <td>
                     <button class="deleteBtn">Delete</button>
@@ -66,7 +66,7 @@ function deleteTask() {
     console.log('in deleteTask');
 
     let taskId = $(this).parents('tr').data('task-id');
-    
+
     $.ajax({
         method: 'DELETE',
         url: `/toDo/${taskId}`
@@ -81,5 +81,35 @@ function deleteTask() {
 }//end delete Task
 
 function makeComplete() {
+    console.log('in makeComplete');
 
-}//end makeComplete
+    let taskId = $(this).parents('tr').data('task-id');
+    let updateStatus ={};
+
+    if($(this).parents('tr').children('.status').text()=== 'false') {
+            updateStatus = {
+            status: true
+            };
+      }
+      else if($(this).parents('tr').children('.status').text()=== 'true') {
+            updateStatus = {
+            status: false
+            };
+      }
+      else {
+          console.log('PROBLEM');
+      }
+
+    console.log(updateStatus);
+
+    $.ajax({
+        method: 'PUT',
+        url: `/task/${taskId}`,
+        data: updateStatus
+    }).then(res => {
+        console.log('PUT transfer success');
+        // appendTasks();
+    }).catch( err => {
+        console.log('update failed');
+    });
+}; 

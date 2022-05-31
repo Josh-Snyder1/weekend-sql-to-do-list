@@ -58,5 +58,26 @@ router.delete('/:task', (req, res) => {
 
 });//end router.delete
 
+router.put('/:task', (req, res) => {
+    console.log('in router.put');
+    let sqlQuery = `
+        UPDATE "to-do-list"
+        SET "status" = $2
+        WHERE "id" = $1
+    `;
+    let sqlParams = [
+        req.params.task,
+        req.body.status
+    ];
+    console.log('this should be task id', req.params.task);
+    console.log('this should be status to change to', req.body.status)
+    pool.query(sqlQuery, sqlParams)
+    .then(() => {
+        console.log('in router.put pool.then');
+        res.sendStatus(201);
+    }).catch((err) => {
+        res.sendStatus(500);
+    });
+});
 
 module.exports = router;
