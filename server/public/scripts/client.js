@@ -42,9 +42,17 @@ function appendTasks() {
     }).then((response) => {
         console.log('in appendTasks ajax.then', response)
         for (task of response) {
+
+            //this checks if task is complete when returned from server before appending
+            //if tru then gives it a class of taskComplete
+            let trclass = '';
+            if (task.status === true) {
+                trclass = 'class="taskComplete"';
+            };
+
             $('#viewTasks').append(`
             <tr data-task-id="${task.id}">
-                <td class="task"> ${task.task} </td>
+                <td ${trclass} class="task"> ${task.task} </td>
                 <td class="status">${task.status}</td>
                 <td> 
                 <button class="changeStatus">Status
@@ -86,17 +94,19 @@ function makeComplete() {
     let taskId = $(this).parents('tr').data('task-id');
     let updateStatus ={};
 
-    $(this).parents('tr').children('.task').classList.toggle("taskComplete")
+    // $(this).parents('tr').children('.task').classList.toggle("taskComplete")
 
     if($(this).parents('tr').children('.status').text()=== 'false') {
             updateStatus = {
             status: true
             };
+            $(this).parents('tr').addClass("taskComplete");
       }
       else if($(this).parents('tr').children('.status').text()=== 'true') {
             updateStatus = {
             status: false
             };
+            $(this).parents('tr').removeClass("taskComplete");
       }
       else {
           console.log('PROBLEM');
