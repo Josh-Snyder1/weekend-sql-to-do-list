@@ -6,5 +6,6 @@ CREATE TABLE "to-do-list" (
 	
 	INSERT INTO "to-do-list"
 		("task")
-	VALUES ('Finish the weekend challenge');
+	VALUES ('Finish the weekend challenge', 'Drink margaritas', 'Go Fishing', 'Sit back and relax');
+
 		

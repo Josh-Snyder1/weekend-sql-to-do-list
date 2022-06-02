@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
     const sqlQuery = `
-        SELECT * FROM "to-do-list";    
+        SELECT * FROM "to-do-list" ORDER BY "id" asc;    
     `
     pool.query(sqlQuery).then(response => {
         console.log('in router.get pool.query', response.rows);
